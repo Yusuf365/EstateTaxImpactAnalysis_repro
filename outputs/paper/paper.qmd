@@ -1,221 +1,175 @@
 ---
-title: "My title"
-subtitle: "My subtitle if needed"
-author: 
-  - First author
-  - Another author
-thanks: "Code and data are available at: LINK."
+title: "Impact of the Everything But Arms Initiative (EBA): A Comparative Study of Trade Policy and Market Dynamics in the Apparel Industry"
+author: "Mohammed Yusuf Shaikh"
+format:
+  pdf:
+    toc: true
+    number-sections: true
 date: today
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
-format: pdf
-number-sections: true
 bibliography: references.bib
+thanks: "The code and data is available at https://github.com/Yusuf365/PMARO-Study-Bangladesh_repro.git and replicated files are available athttps://www.socialsciencereproduction.org/reproductions/6ba772b2-68a9-4701-8138-dee5d0065e9a/index "
+classoption: abstract
+abstract: "This study delves into the investigative intricacy involving trade policy and market function through which the global apparel industry operates. Developing the essence of this analysis we mention Everything But Arm (EBA) initiative that ensures the least developed countries (LDCs) have a better chance in the competitive market with duty-free access to the European Union. This type of the study deviates from the large scale lens of the original article, which examined the EBA at the firm-level within Bangladesh, and instead broadens the scope of the macroeconomic context to encompass the wider significance of such trade policies. We narrow our study to one of the EBA utilization rates of Bangladesh that reflects both the success of the emerging economics in the textile sector. This analysis does so by demonstrating the changing shares of global textile and apparel exports and the underlying shifts through a before and after comparison. The comparative analysis spans over two decades and reflects the market struggle between the out bursting capacities of the LDCs and the giant manufacturing dominator- China."
 ---
+
 
 ```{r}
 #| include: false
 #| warning: false
 #| message: false
 
-library(tidyverse)
-library(palmerpenguins)
-```
+#### Preamble ####
+# Purpose: Writing a paper: Impact of the Everything But Arms Initiative (EBA): A Comparative Study of Trade Policy and Market Dynamics in the Apparel Industry
+# Author: "Mohammed Yusuf Shikh"
+# Date: February 11, 2024
+# Contact: mohammedyusuf.shaikh@mail.utoronto.ca
 
+#### Workplace setup ###
+
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+library(janitor)
+
+
+#### Reading the data from Github file ####
+
+
+ldc_only <- read_csv("/cloud/project/outputs/data/ldc_only.csv")
+
+market_share_data <- read_csv("/cloud/project/outputs/data/market_share_data.csv")
+
+bgd  <- read_csv("/cloud/project/outputs/data/bgd.csv")
+
+```
 
 # Introduction
 
-You can and should cross-reference sections and sub-sections. 
-
-The remainder of this paper is structured as follows. @sec-data....
+Modernity has promoted global trading policies as economic reforms tools. Thus, against the backdrop of underdeveloped nations, the "Everything But Arms" (EBA) initiative marks a landmark in strategies to be applied to leveling the international trade conditions for LDCs. The EBA, organized by the EU, seeks to inter alia offer all products from LDCs a quota-free, duty-free trade access, save the arms and ammunition. At the core of this approach is the belief that being able to access preferential markets emerges as a strategy that is in a position to foster growth, bring diversity into the export list, and, in the end, make global economic upliftment a reality. A short term effect on the life of local apparel industry, formed one of the most important bases for their economic growth, is a negative impact of such trade privileges. With these nations trying to locate their space on the world markets, policies like the EBA are seen as the “sign of light” on the way towards success. While it is undeniable that the complexity of the trade models and the sheer number of competitors of this kind of policy present uncertainty about the effectiveness of these trade measures. The research that is described here tries to step beyond the microeconomic studies of firm-level impact in Bangladesh (like the original journal article reported) to the scrutiny of the macroeconomic connotations of EBA use in the global market of apparel products. To start, the policy of trade and its core aim about the economic development is clearly defined by outlining the circumstances in which the LDC apparel industry takes place. Then, it goes on the longest journey in the apparel industry across the world visiting the competitors, government policies and the market shares. By portraying the relationship between emerging economies and mature manufacturing giants particularly China in a complicated and deep way, the article intends to make clear the role of these economies in trade. Through the application of a macroeconomic perspective, this paper is purposefully designed to disentangle the wider narratives that are implicit in trade policy based on preferred partnerships. It casts light on how the shifts in EBAs rates are reflected in the competition relations between LDCs and China, and whether these EBAs have any meaningful effect on the global market distribution. The pivotal factor is the introduction of data covering nearly two decades of economic life, which supply a longitudinal view of how the economy has been unfolding. Other than the analytical approach used, the study also thinks about how policy issues affect broader trade relations. It entails the questioning of critical factors faced by LDCs, the tenacity of the growth strategies in the face of global trade, and the substantial outcomes brought by market access preferences. This introduction will establish the initial frameworks, and following sections will focus more carefully on the data, unwind the discoveries, and hold a conversation on implications, limitations, and future ways that can be found based on the analysis.
 
 
 
-# Data {#sec-data}
+# Data
 
-Some of our data is of penguins (@fig-bills), from @palmerpenguins.
+## Data Source
+The primary data source used in the original study "Improving Preferential Market Access through Rules of Origin: "Firm-Level Evidence from Bangladesh" which is a part of data set by Bangladeshi National Board of Revenue and was published by the International Growth Center. The dataset spans the time interval from 2000 to 2018 and includes both the rule of origin (2011) change before and after.
+
+
+## Data Variables
+
+Firm-level shipment volumes and amounts by import destination.
+The date of the delivery in HS eight-digit (HS8) category level.
+There is to be targeted attention on the change that was from the double-transformation to the single-transformation rule of origin that only applied for exporters of apparel with apparel products defined as exports in HS headings 61 and 62.
+
+
+## Data Cleaning
+
+Data used in this paper was downloaded, cleaned and analyzed with the programming language R [@R]. Also with support of additional packages in R: `tidyverse` [@rTidyverse], `janitor` [@rJanitor], `dplyr` [@rDplyr], `readr` [@rReadr], [@rGgplot2].
+
+
+# Result
+
+First of all, our analysis involves [@fig-ttl-util] that describes the level of EBA utilization by LDCs from 2005 to 2020. The manner of the ascent of trend line shows that the rate of utilization of LDCs has increasingly taken advantage of the benefits resulted from the EBA initiative. The output use rate, which stays around 0.4 in the first years turns over 0.5 by 2010 and continues the upward tendency peaking close to 0.6 in the last years. 
+
 
 ```{r}
-#| label: fig-bills
-#| fig-cap: Bills of penguins
-#| echo: false
-
-ggplot(penguins, aes(x = island, fill = species)) +
-  geom_bar(alpha = 0.8) +
-  scale_fill_manual(values = c("darkorange","purple","cyan4"),
-                    guide = "none") +
-  theme_minimal() +
-  facet_wrap(~species, ncol = 1) +
-  coord_flip()
-```
-
-Talk more about it.
-
-And also planes (@fig-planes). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work well once you have enough text.)
-
-```{r}
-#| label: fig-planes
-#| fig-cap: Relationship between wing length and width
+#| label: fig-ttl-util
+#| fig-cap: EBA Utilztion
 #| echo: false
 #| warning: false
 #| message: false
 
-analysis_data <- read_csv(here::here("outputs/data/analysis_data.csv"))
 
-analysis_data |> 
-  ggplot(aes(x = width, y = length)) +
-  geom_point(alpha = 0.8) +
-  theme_minimal() +
-  labs(x = "Wing width (mm)",
-       y = "Wing length (mm)")
+ggplot(ldc_only) +
+  geom_line(aes(x = year, y = util), size = 1) +
+  geom_point(aes(x = year, y = util), size = 2) +
+  xlab("Year") + ylab("EBA Utilization Rate") +
+  theme_bw() +
+  theme(text = element_text(size = 20), axis.text.x = element_text())
 ```
 
-Talk way more about it. 
+```{r}
+#| label: fig-ttl-mkt-share
+#| fig-cap: Market Share Data
+#| echo: false
+#| warning: false
+#| message: false
+#| 
+ggplot(market_share_data, aes(x = Year, y = share, group = type, color = type)) +
+  geom_line(size = 1) +
+  geom_point(size = 3) +
+  ylab("Market Share") +
+  scale_color_manual(values = c("grey50", "black")) +
+  theme_bw() +
+  theme(text = element_text(size = 20),
+        legend.title = element_blank(),
+        legend.position = "bottom") +
+  labs(color = "Type")
+```
 
-
-
-# Model
-
-The goal of our modelling strategy is twofold. Firstly,...
-
-Here we briefly describe the Bayesian analysis model used to investigate... Background details and diagnostics are included in [Appendix -@sec-model-details].
-
-## Model set-up
-
-Define $y_i$ as the number of seconds that the plane remained aloft. Then $\beta_i$ is the wing width and $\gamma_i$ is the wing length, both measured in millimeters.  
-
-\begin{align} 
-y_i|\mu_i, \sigma &\sim \mbox{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha + \beta_i + \gamma_i\\
-\alpha &\sim \mbox{Normal}(0, 2.5) \\
-\beta &\sim \mbox{Normal}(0, 2.5) \\
-\gamma &\sim \mbox{Normal}(0, 2.5) \\
-\sigma &\sim \mbox{Exponential}(1)
-\end{align}
-
-We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
-
-
-### Model justification
-
-We expect a positive relationship between the size of the wings and time spent aloft. In particular...
-
-We can use maths by including latex between dollar signs, for instance $\theta$.
-
-
-# Results
-
-Our results are summarized in @tbl-modelresults.
 
 ```{r}
+#| label: fig-ttl-util-w-vs-k
+#| fig-cap: EBA Utilztion Woven vs Knit
 #| echo: false
-#| eval: true
 #| warning: false
 #| message: false
 
-library(rstanarm)
 
-first_model <-
-  readRDS(file = here::here("outputs/models/first_model.rds"))
+# [@fig-ttl-util-w-vs-k]
+
+# Define colors for the lines
+cols <- c("1" = "black", "0" = "grey")
+
+ggplot(data = bgd, aes(x = year, y = frac, group = as.factor(woven))) +
+  geom_line(aes(color = as.factor(woven)), size = 1) +
+  geom_point(aes(color = as.factor(woven)), size = 3) +
+  xlab("Year") + ylab("Utilization Rate") +
+  ggtitle("Change in EBA Utilization Rate for Apparel Products") +
+  labs(color = "Product Type") +
+  scale_color_manual(values = cols, breaks = c("1", "0"), labels = c("Woven", "Knit")) +
+  theme_bw() +
+  scale_x_continuous(name = "Year", limits = c(2001, 2018), breaks = scales::pretty_breaks(n = 9)) +
+  scale_y_continuous(limits = c(0.1, 1), breaks = scales::pretty_breaks(n = 5)) +
+  theme(legend.position = "bottom",
+        legend.direction = "horizontal",
+        axis.text.x = element_text(color = "black", size = 10, face = "plain"),
+        axis.text.y = element_text(color = "black", size = 10, face = "plain"),
+        axis.title.x = element_text(color = "Black", size = 10, face = "plain"),
+        axis.title.y = element_text(color = "Black", size = 10, face = "plain"),
+        legend.text = element_text(size = 10),
+        plot.title = element_text(size = 10, hjust = 0.9))
+
 ```
 
-```{r}
-#| echo: false
-#| eval: true
-#| label: tbl-modelresults
-#| tbl-cap: "Explanatory models of flight time based on wing width and wing length"
-#| warning: false
 
-modelsummary::modelsummary(
-  list(
-    "First model" = first_model
-  ),
-  statistic = "mad",
-  fmt = 2
-)
-```
-
-
-
+This trend reveals LDCs progression in dealing with the conditions of the EBA's trade provisions, maybe it is a result of the LDCs improved the production capabilities and adherence to the rules of origin per the EBA regulations. Moreover, we observe market share in global apparel exports for China compared to the entire LDC en bloc in [@fig-ttl-mkt-share]. Data for 2005 till 2020 indicates that China's share in the market is almost down compared to its maximum that was in 2010 while LDCs are improving a little. The share of markets for the LDCs might be progressively reallocated in favor of them, which could be the case as a result of their increased engagement in EBA. On the other hand, the market share of LDCs are still comparatively low as that of China which shows that the EBA had helped LDCs to boost their export products but it alone not enough to reduce the power of China as the major player in the global market. [@fig-ttl-util-w-vs-k] draws a detailed picture only by isolating the EBA utilization rates for woven and knit products by Bangladeshi clothing producers. From 2002 to 2018, it is obvious that both categories are on high trajectory, but the rate of increment for woven goods is more significant. The flat section is depicted by the graph showing the gradual increase in EBA adoption. Such a difference could be a result of the difference that exists in the supply networks and input sourcing patterns in the case of the two categories. The apparel categories such as weaving goods appear to have particularly benefited from the different channeling of the input sources under the new rules of origin that resulted in significant increase of the use level of EBA. Summing up, the performance of LDCs within the apparel market which is principally promoted with the help of trade policies like the EBA. The dominance of massively present players like China signals the still existing difficulties of LDCs to play more significant part in the global market. The data confirms that while relevant and vital initiatives such as the AGOA can provide LDCs with valuable opportunities, there is a complex network of factors that determine their greater ability to fully take advantage of them. Hence, this shows  the mosaic development of the LDC market share and the well-thought out use of EBA provisions reveals the cautious optimism of developing economies trying to build their own place in the fiercely competitive garment making market.
 
 # Discussion
 
-## First discussion point {#sec-first-point}
+One study that sheds light on this is our estimand between trade policy, economic development, and the global apparel industry, especially with the rise of the Everything But Arms (EBA) intervention. The EBA initiative, aimed at granting quota-free access to all non-armament and weapon products from LDCs to the EU, represents a crucial step towards bringing LDCs into global economy. The upward trends in LDCs utilization rate points towards the advances in their abilities to get in touch with global markets with preferential trade norms. Therefore, this increment is in line with increased production capabilities, better implementations of origin rules, and increased awareness of EU market conditions. This confirmation strengthens the idea that this preferential treatment can operate as a springboard for the economy by attracting investments to the focal sectors as well as providing a chance for technology transfer.
+The market share analysis demonstrates a profound picture. Although there is a small rise in market share of LDCs in the world apparel industry, it is the Chinese that still rule largely.
 
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
+## Prospects
 
-## Second discussion point
-
-## Third discussion point
-
-## Weaknesses and next steps
-
-Weaknesses and next steps should also be included.
-
-\newpage
-
-\appendix
-
-# Appendix {-}
+LDCs have a range of strategic responses, which allow LDCs to take the greatest advantage from EBA benefits. Among these are intensifying production systems, working on standards conformity, and participating in bilateral and multilateral treaties in order to optimize the terms of trade. Nevertheless, there are a couple of obstacles like China dominating the apparel market and becoming a threatening competitor to the UK. The basis of China's competitiveness is constituted by the huge manufacturing complex, leading technologies and a number of interconnected supply chains. LDCs fail to compete on the same level with others due to the absence of infrastructure, tech, and manual labor. Successful integration into global supply chains is not limited only to the access of the market but also involves the meeting of the buyers' requirements of high quality standards, sustainability and ethical production. LDCs faces challenges of modifying their supply chains according to these widening standards. Hence, boosting the production and adhering with the origin of rules is essential to extract the maximum advantage of EBA. This implies not only the financial investments in technology and skills development but also the efficient passage of the regulatory standards.
 
 
-# Additional data details
+# Conclusion
 
-# Model details {#sec-model-details}
 
-## Posterior predictive check
-
-In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows...
-
-In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows... 
-
-```{r}
-#| eval: true
-#| echo: false
-#| message: false
-#| warning: false
-#| label: fig-ppcheckandposteriorvsprior
-#| layout-ncol: 2
-#| fig-cap: "Examining how the model fits, and is affected by, the data"
-#| fig-subcap: ["Posterior prediction check", "Comparing the posterior with the prior"]
-
-pp_check(first_model) +
-  theme_classic() +
-  theme(legend.position = "bottom")
-
-posterior_vs_prior(first_model) +
-  theme_minimal() +
-  scale_color_brewer(palette = "Set1") +
-  theme(legend.position = "bottom") +
-  coord_flip()
-```
-
-## Diagnostics
-
-@fig-stanareyouokay-1 is a trace plot. It shows... This suggests...
-
-@fig-stanareyouokay-2 is a Rhat plot. It shows... This suggests...
-
-```{r}
-#| echo: false
-#| eval: true
-#| message: false
-#| warning: false
-#| label: fig-stanareyouokay
-#| fig-cap: "Checking the convergence of the MCMC algorithm"
-#| fig-subcap: ["Trace plot", "Rhat plot"]
-#| layout-ncol: 2
-
-plot(first_model, "trace")
-
-plot(first_model, "rhat")
-```
+In conclusion, the analysis of the EBA (Everything But Arms) Initiative effect on the global apparel sector, including the LDCs (Least Developed Countries), follows a narrative of opportunity against formidable obstacles. By looking into the patterns of EBA usage rates and market shares, this analysis identified that although preferential trade policies serve as a key catalyst for economic growth, they ultimately are limited by the realities of international competition and structural drawbacks within LDCs. For example, Bangladesh has managed to re-enter this market through using EBA quite effectively. Yet China's prevailing position as a manufacturing powerhouse and the multifaceted nature of the EBA negotiations emphasize the complex characteristic of the global trade. Thus, this study highlights the necessity to apply an integrated approach to economic development of LDCs that takes into consideration preferential access to trade, along with strategies for industrial upgrading, infrastructure development, and capacity building. As the global economy goes through further structural changes, the lessons drawn from the Institution's Implementation of EBA are quite vital in guiding future trade policies so that they contribute more to sustainable growth and development in the poor economies of the world.
 
 
 
-\newpage
 
 
-# References
+
+
+
+
+
 
 
