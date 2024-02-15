@@ -54,7 +54,7 @@ Modernity has promoted global trading policies as economic reforms tools. Thus, 
 # Data
 
 ## Data Source
-The primary data source used in the original study "Improving Preferential Market Access through Rules of Origin: "Firm-Level Evidence from Bangladesh" which is a part of data set by Bangladeshi National Board of Revenue and was published by the International Growth Center. The dataset spans the time interval from 2000 to 2018 and includes both the rule of origin (2011) change before and after.
+The primary data source used in the original study "Improving Preferential Market Access through Rules of Origin: "Firm-Level Evidence from Bangladesh" which is a part of data set by Bangladeshi National Board of Revenue and was published by the International Growth Center @sytsma_no_date The dataset spans the time interval from 2000 to 2018 and includes both the rule of origin (2011) change before and after.
 
 
 ## Data Variables
