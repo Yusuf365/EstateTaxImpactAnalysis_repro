@@ -1,15 +1,34 @@
 #### Preamble ####
-# Purpose: Tests... [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 11 February 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose: Simulates the data for export & Bangladesh
+# Author: Mohammed Yusuf Shaikh
+# Date: 11 February 2024
+# Contact: Mohhammedn Yusuf Shaikh
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites: None
 
 
-#### Workspace setup ####
-library(tidyverse)
-# [...UPDATE THIS...]
+# Test
 
-#### Test data ####
+unique_entities <- unique(simulated_market_share$Entity)
+all(unique_entities %in% c("China", "LDCs")) && length(unique_entities) == 2
+
+
+all(simulated_market_share$Share >= 0 & simulated_market_share$Share <= 1)
+
+
+all(simulated_eurostat$value >= 100000)
+
+
+all(grepl("^61", simulated_eurostat$PRODUCT) | grepl("^62", simulated_eurostat$PRODUCT))
+
+
+all(simulated_market_share$Export >= 300000 & simulated_market_share$Export <= 1500000)
+
+
+
+
+
+
+
+
+
