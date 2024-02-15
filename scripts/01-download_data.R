@@ -33,12 +33,12 @@ eu_countries <- read_dta("eu_countries.dta")
 input_folder_path <- "/cloud/project/inputs/data"
 
 # Write the files to the input folder
-write_dta(eu_countries, file.path(input_folder_path, "eu_countries.dta"))
+write_csv(eu_countries, file.path(input_folder_path, "eu_countries.csv"))
 write_csv(eurostat, file.path(input_folder_path, "Eurostat.csv"))
 write_csv(market_share, file.path(input_folder_path, "market_share.csv"))
-write_dta(specification_data, file.path(input_folder_path, "specification_data.dta"))
-write_dta(temp_data, file.path(input_folder_path, "temp_data.dta"))
-write_dta(bgd2, file.path(input_folder_path, "bgd2.dta"))
+write_csv(specification_data, file.path(input_folder_path, "specification_data.csv"))
+write_csv(temp_data, file.path(input_folder_path, "temp_data.csv"))
+write_csv(bgd2, file.path(input_folder_path, "bgd2.csv"))
 
 
          
