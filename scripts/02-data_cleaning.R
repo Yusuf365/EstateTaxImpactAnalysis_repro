@@ -2,58 +2,64 @@ library(readr)
 library(dplyr)
 library(ggplot2)
 library(tidyverse)
-library(janitor)
 
-# Load and preprocess Eurostat data
-dat <- read_csv("/cloud/project/inputs/data/Eurostat.csv") %>%
-  select(-1)
+# Define file paths for input and output
+input_file_path <- "/cloud/project/inputs/data/Eurostat.csv"
+market_share_output_path <- "/cloud/project/outputs/data/market_share_data.csv"
+bgd_utilization_output_path <- "/cloud/project/outputs/data/bgd_utilization_data.csv"
+figure3_output_path <- "Figure3.png"
 
-# Rename columns for clarity
-colnames(dat) <- c("DECLARANT_LAB", "PARTNER_LAB", "PRODUCT", "PRODUCT_LAB", 
-                   "STAT_REGIME_LAB", "ELIGIBILITY_LAB", "IMPORT_REGIME_LAB", 
-                   "year", "value")
+# Load and preprocess Eurostat data with an emphasis on pipeline use
+dat <- read_csv(input_file_path) %>%
+  select(-1) %>%
+  rename(DECLARANT_LAB = `1`, PARTNER_LAB = `2`, PRODUCT = `3`, PRODUCT_LAB = `4`, 
+         STAT_REGIME_LAB = `5`, ELIGIBILITY_LAB = `6`, IMPORT_REGIME_LAB = `7`, 
+         year = `8`, value = `9`) %>%
+  filter(!DECLARANT_LAB %in% c("EU total", "EU MEMBER STATES- EVOLUTIVE")) %>%
+  mutate(value = value / 1,
+         group_id = group_indices(DECLARANT_LAB, PARTNER_LAB, PRODUCT, year))
 
-# Remove aggregated destinations
-dat <- dat %>%
-  filter(!DECLARANT_LAB %in% c("EU total", "EU MEMBER STATES- EVOLUTIVE (EU15 UNTIL 30/04/2004, EU25 UNTIL 31/12/2006, EU27 UNTIL 30/06/2013, EU 28 SINCE 01/07/2013)"))
-
-# Adjust value column
-dat$value <- dat$value / 1
-
-# Create group_id variable
-dat$group_id <- dat %>% group_indices(PARTNER_LAB, PRODUCT, DECLARANT_LAB, year)
-
-# Filter data for GSP ZERO and GSP NON ZERO
+# Create GSP filtered dataset
 gsp_only <- dat %>%
   filter(IMPORT_REGIME_LAB %in% c("GSP ZERO", "GSP NON ZERO")) %>%
   mutate(gsp_value = value)
 
-# Aggregate data
-total <- aggregate(value ~ group_id + PARTNER_LAB + PRODUCT + year + DECLARANT_LAB, data = dat, FUN = sum)
-total_gsp <- aggregate(gsp_value ~ group_id, data = gsp_only, FUN = sum)
-util <- merge(total, total_gsp, by = "group_id", all = FALSE, all.x = TRUE)
+# Compute and save market share data
+dat %>%
+  group_by(year, PARTNER_LAB) %>%
+  summarise(total_value = sum(value)) %>%
+  left_join(gsp_only %>%
+              group_by(year, PARTNER_LAB) %>%
+              summarise(gsp_value = sum(gsp_value)), by = c("year", "PARTNER_LAB")) %>%
+  mutate(share = gsp_value / total_value) %>%
+  ungroup() %>%
+  write_csv(market_share_output_path)
 
-# Calculate fraction
-util$gsp_value[is.na(util$gsp_value)] <- 0
-util$frac <- util$gsp_value / util$value
-util <- util[util$value != 0, ]
+# Calculate and save utilization rate for Bangladesh
+dat %>%
+  left_join(gsp_only %>% select(group_id, gsp_value), by = "group_id") %>%
+  replace_na(list(gsp_value = 0)) %>%
+  mutate(frac = gsp_value / value,
+         post = if_else(year >= 2011, 1, 0),
+         woven = if_else(PRODUCT >= 620000, 1, 0)) %>%
+  filter(value != 0, PARTNER_LAB == "BANGLADESH") %>%
+  group_by(year, woven) %>%
+  summarise(gsp_value = sum(gsp_value), total_value = sum(value), frac = gsp_value / total_value) %>%
+  ungroup() %>%
+  write_csv(bgd_utilization_output_path)
 
-# Adjust post and woven columns
-util$post <- ifelse(util$year >= 2011, 1, 0)
-util$woven <- ifelse(util$PRODUCT >= 620000, 1, 0)
+# Assuming market_share and bgd data frames are correctly formatted and available for plotting
 
-# Calculate utilization rate
-ldc_only <- util %>%
-  group_by(year) %>%
-  summarise(util = mean(frac), var = sd(frac))
+# Plot Figure 3 (Market Share)
+market_share <- read_csv(market_share_output_path)  # Assuming the file exists
 
-# Plot Figure 1
-figure1 <- ggplot(ldc_only) +
-  geom_line(aes(x = year, y = util), size = 1) +
-  geom_point(aes(x = year, y = util), size = 2) +
-  xlab("Year") + ylab("EBA Utilization Rate") +
-  theme_bw() +
-  theme(text = element_text(size = 20), axis.text.x = element_text())
+Figure3 <- ggplot(market_share, aes(x = year, y = share, color = as.factor(PARTNER_LAB))) +
+  geom_line(size = 1) +
+  geom_point(size = 3) +
+  labs(y = "Market Share", color = "Partner Lab") +
+  scale_color_manual(values = c("grey50", "black")) +
+  theme_minimal(base_size = 20) +
+  theme(legend.position = "bottom")
 
-print(figure1)
-
+# Save the plot
+ggsave(figure3_output_path, Figure3, width = 8, height = 5, units = "in")
